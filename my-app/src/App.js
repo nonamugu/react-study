@@ -1,10 +1,14 @@
 import {useState} from 'react'
+import axios from 'axios';
 
 function App() {
   const [title, setTitle] = useState('');  // 초기값은 없어야 하기때문에 empty
   const [body, setBody] = useState('');  // 초기값은 없어야 하기때문에 empty
   const onSubmit = () => {
-    console.log(title, body);
+    axios.post('http://localhost:3001/posts', {
+      title,   // 키와 변수의 이름이 같으면 하나만 쓸 수 있음 (title: title)
+      body
+    })
   };
 
   return (
