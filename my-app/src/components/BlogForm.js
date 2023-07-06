@@ -10,7 +10,8 @@ const BlogForm = () => {
   const onSubmit = () => {
     axios.post('http://localhost:3001/posts', {
       title,   // 키와 변수의 이름이 같으면 하나만 쓸 수 있음 (title: title)
-      body
+      body,
+      createdAt: Date.now()
     }).then(() => {
       history.push('/blogs');
     })

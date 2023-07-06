@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Card from '../components/Card';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const ListPage = () => {
     const history = useHistory();
@@ -29,13 +30,9 @@ const ListPage = () => {
 
     const renderBlogList = () => {
         if (loading) {
-            return(
-                <div className='d-flex justify-content-center'>            
-                    <div className='spinner-border' role='status'>
-                        <span className='visually-hidden'>Loading...</span>
-                    </div>    
-                </div>    
-            )
+            return (
+                <LoadingSpinner />
+            );
         }
 
         if (posts.length === 0) {
@@ -48,7 +45,7 @@ const ListPage = () => {
                     <Card 
                         key={post.id} 
                         title={post.title} 
-                        onClick={() => history.push('/blogs/edit')}
+                        onClick={() => history.push(`/blogs/${post.id}`)}
                     >
                         <div>
                             <button 
