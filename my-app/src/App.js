@@ -10,7 +10,7 @@ function App() {
   return ( 
       <Router>
         <NavBar />      
-        <div className='container'>
+        <div className='container mt-3'>
           <Switch>
             {routes.map((route) => {
               return <Route key={route.path} exact path={route.path} component={route.component} />;

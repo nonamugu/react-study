@@ -1,19 +1,14 @@
 {
   "posts": [
     {
-      "title": "hello",
-      "body": "body",
+      "title": "kossie corder",
+      "body": "coder",
       "id": 1
     },
     {
-      "title": "hello",
-      "body": "body",
+      "title": "zz",
+      "body": "gd",
       "id": 2
-    },
-    {
-      "title": "test",
-      "body": "test",
-      "id": 3
     }
   ]
 }
