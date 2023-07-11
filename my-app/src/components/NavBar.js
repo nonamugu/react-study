@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import { login, logout } from '../store/authSlice'; 
+import { login, logout } from '../store/authSlice';
 
 const NavBar = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -30,7 +30,7 @@ const NavBar = () => {
               {isLoggedIn ? 'Logout' : 'Login'}
             </button>
           </li>
-          <li className="nav-item me-2">
+          {isLoggedIn ? <li className="nav-item me-2">
             <NavLink
               activeClassName="active"
               className="nav-link"
@@ -39,7 +39,7 @@ const NavBar = () => {
             >
               Admin
             </NavLink>
-          </li>
+          </li> : null}
           <li className="nav-item">
             <NavLink
               activeClassName="active"
