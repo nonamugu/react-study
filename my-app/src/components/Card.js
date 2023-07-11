@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 const Card = ({ title, onClick, children }) => {
     return (
-        <div 
+        <div  
             className="card mb-3 cursor-pointer"
             onClick={onClick}
         >

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import propTypes from 'prop-types'
+import useToast from '../hooks/toast';
 
 const BlogForm = ({ editing }) => {
   const history = useHistory();
@@ -15,6 +16,7 @@ const BlogForm = ({ editing }) => {
   const [originalPublish, setOriginalPublish] = useState(false);
   const [titleError, setTitleError] = useState(false);
   const [bodyError, setBodyError] = useState(false);
+  const { addToast } = useToast();
 
   useEffect(() => {
     if (editing) {
@@ -78,6 +80,10 @@ const BlogForm = ({ editing }) => {
           publish,
           createdAt: Date.now()
         }).then(() => {
+          addToast({
+            type: 'success',
+            text: 'Successfully created!'
+          })
           history.push('/admin');
         })
       }
@@ -85,64 +91,63 @@ const BlogForm = ({ editing }) => {
   };
 
   const onChangePublisher = (e) => {
-    console.log(e.target.checked)
     setPublish(e.target.checked)
   };
 
-    return (
-      <div> 
-        <h1>{editing ? 'Edit' : 'Create'} a blog post</h1>
-        <div className="mb-3">
-          <label className="form-label">Title</label>
-          <input
-            className={`form-control ${titleError ? 'border-danger' : ''}`}
-            value={title} // empty string을 밸류로 가져옴
-            onChange={(event) => {
-              setTitle(event.target.value);
-            } } />
-          {titleError && <div className='text-danger'>
-            Title is required
-          </div>}
-        </div>          
-        <div className="mb-3">
-          <label className="form-label ">Body</label>
-          <textarea
-            className={`form-control ${bodyError ? 'border-danger' : ''}`}
-            value={body}
-            onChange={(event) => {
-              setBody(event.target.value);
-            } }
-            rows="10" />
-          {bodyError &&<div className='text-danger'>
-            body is required
-          </div>}
-        </div>
-        <div className='form-check mb-3'>
-          <input 
-            className='form-check-input'
-            type='checkbox'
-            checked={publish}
-            onChange={onChangePublisher}
-          />
-          <label className='form-check-label'>
-            Publish
-          </label>
-        </div>
-        <button
-          className="btn btn-primary"
-          onClick={onSubmit}
-          disabled={editing && !isEdited()}
-        >
-          {editing ? 'Edit' : 'Post'}
-        </button>
-        <button
-          className="btn btn-danger ms-2"
-          onClick={goBack}
-        >
-          Cancel
-        </button>
+  return (
+    <div>
+      <h1>{editing ? 'Edit' : 'Create'} a blog post</h1>
+      <div className="mb-3">
+        <label className="form-label">Title</label>
+        <input
+          className={`form-control ${titleError ? 'border-danger' : ''}`}
+          value={title} // empty string을 밸류로 가져옴
+          onChange={(event) => {
+            setTitle(event.target.value);
+          } } />
+        {titleError && <div className='text-danger'>
+          Title is required
+        </div>}
       </div>
-    );
+      <div className="mb-3">
+        <label className="form-label ">Body</label>
+        <textarea
+          className={`form-control ${bodyError ? 'border-danger' : ''}`}
+          value={body}
+          onChange={(event) => {
+            setBody(event.target.value);
+          } }
+          rows="10" />
+        {bodyError &&<div className='text-danger'>
+          body is required
+        </div>}
+      </div>
+      <div className='form-check mb-3'>
+        <input 
+          className='form-check-input'
+          type='checkbox'
+          checked={publish}
+          onChange={onChangePublisher}
+        />
+        <label className='form-check-label'>
+          Publish
+        </label>
+      </div>
+      <button
+        className="btn btn-primary"
+        onClick={onSubmit}
+        disabled={editing && !isEdited()}
+      >
+        {editing ? 'Edit' : 'Post'}
+      </button>
+      <button
+        className="btn btn-danger ms-2"
+        onClick={goBack}
+      >
+        Cancel
+      </button>
+    </div>
+  );
 };
 
 BlogForm.propTypes = {

@@ -1,13 +1,12 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Card from '../components/Card';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Pagination from './Pagination';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
-import { useCallback } from 'react';
-import propTypes from 'prop-types'
-import Toast from './Toast';
+import propTypes from 'prop-types';
+import useToast from '../hooks/toast';
 
 const BlogList = ({ isAdmin }) => {
     const history = useHistory();
@@ -19,7 +18,9 @@ const BlogList = ({ isAdmin }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [numberOfPosts, setNumberOfPosts] = useState(0);
     const [numberOfPages, setNumberOfPages] = useState(0);
-    const [searchText, setsearchText] = useState();
+    const [searchText, setsearchText] = useState('');
+
+    const { addToast } = useToast();
     const limit = 5;
  
     useEffect(() => {
@@ -60,14 +61,18 @@ const BlogList = ({ isAdmin }) => {
         setCurrentPage(parseInt(pageParam) || 1);
         getPosts(parseInt(pageParam) || 1);
     }, []);
- 
+
     const deleteBlog = (e, id) => {
         e.stopPropagation();
         
         axios.delete(`http://localhost:3001/posts/${id}`).then(() => {
-            setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
+          setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
+          addToast({
+            text: 'Successfully deleted',
+            type: 'success'
+          });
         });
-    };
+      };
 
     if (loading) {
         return (
