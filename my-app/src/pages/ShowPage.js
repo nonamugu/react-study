@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { useSelector } from "react-redux";
+import useToast from "../hooks/toast";
 
 const ShowPage = () => {
     const { id } = useParams();
@@ -11,10 +12,19 @@ const ShowPage = () => {
     const [loading, setLoading] = useState(true);
     const [timer, setTimer] = useState(0);
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+    const [error, setError] = useState('');
+    const { addToast } = useToast();
 
     const getPost = (id) => {
         axios.get(`http://localhost:3001/posts/${id}`).then((res) => {
             setPost(res.data)
+            setLoading(false);
+        }).catch(e => {
+            setError('somthing wnt wrong in db');
+            addToast({
+                type: 'danger',
+                text: 'somthing wnt wrong in db'
+            })
             setLoading(false);
         })
     };
@@ -40,6 +50,10 @@ const ShowPage = () => {
 
     if (loading) {
         return <LoadingSpinner />
+    }
+
+    if (error) {
+        return <div>{error}</div>
     }
 
     return (
